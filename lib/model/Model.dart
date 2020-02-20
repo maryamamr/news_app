@@ -1,0 +1,74 @@
+class NewsAPI {
+  final String status;
+  final List<Source> sources;
+
+  NewsAPI({this.status, this.sources});
+
+  factory NewsAPI.fromJson(Map<String, dynamic> json) {
+    return NewsAPI(
+        status: json['status'],
+        sources: (json['sources'] as List)
+            .map((source) => Source.fromJson(source))
+            .toList());
+  }
+}
+
+class Article {
+  final Source source;
+  final String author,
+      title,
+      description,
+      url,
+      urlToImage,
+      publishedAt,
+      content;
+
+  Article(
+      {this.source,
+      this.author,
+      this.title,
+      this.description,
+      this.url,
+      this.urlToImage,
+      this.publishedAt,
+      this.content});
+
+  factory Article.fromJson(Map<String, dynamic> json) {
+    return Article(
+        source: Source.fromJsonForArticle(json['source']),
+        author: json['author'],
+        title: json['title'],
+        description: json['description'],
+        url: json['url'],
+        urlToImage: json['urlToImage'],
+        publishedAt: json['publishedAt'],
+        content: json['content']);
+  }
+}
+
+class Source {
+  String id, name, description, url, category, language, country;
+  Source(
+      {this.id,
+      this.name,
+      this.description,
+      this.url,
+      this.category,
+      this.language,
+      this.country});
+
+  factory Source.fromJson(Map<String, dynamic> json) {
+    return Source(
+        id: json['id'],
+        name: json['name'],
+        description: json['description'],
+        url: json['url'],
+        category: json['category'],
+        language: json['language'],
+        country: json['country']);
+  }
+
+  factory Source.fromJsonForArticle(Map<String, dynamic> json) {
+    return Source(id: json['id'], name: json['name']);
+  }
+}
